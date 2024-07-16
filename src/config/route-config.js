@@ -7,7 +7,7 @@ import RootLayout from '../layout/RootLayout';
 import ErrorPage from '../pages/ErrorPage';
 import Events from '../pages/Events';
 import EventDetail, 
-  { loader as eventDetailLoader, action as deleteAction, action } 
+  { loader as eventDetailLoader, action as deleteAction, action, loader } 
 from '../pages/EventDetail';
 import EventLayout from '../layout/EventLayout';
 import NewEvent from '../pages/NewEvent';
@@ -17,7 +17,7 @@ import { action as manipulateAction }
 import WelcomePage from '../pages/WelcomePage';
 import SignUpPage from '../pages/SignUpPage';
 import { loginAction } from '../components/auth/LoginForm';
-import { userDataLoader } from './auth';
+import { authCheckLoader, userDataLoader } from './auth';
 import { logoutAction } from '../pages/Logout';
 
 
@@ -27,6 +27,7 @@ const eventsRouter = [
     index: true, 
     element: <Events />,
     // loader: eventListLoader,
+    
   },
   { 
     path: ':eventId', 
@@ -89,6 +90,7 @@ export const router = createBrowserRouter([
       {
         path: 'events',
         element: <EventLayout />,
+        loader: authCheckLoader,
         children: eventsRouter
       },
     ]
