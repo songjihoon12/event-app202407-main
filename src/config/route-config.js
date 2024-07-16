@@ -7,7 +7,7 @@ import RootLayout from '../layout/RootLayout';
 import ErrorPage from '../pages/ErrorPage';
 import Events from '../pages/Events';
 import EventDetail, 
-  { loader as eventDetailLoader, action as deleteAction } 
+  { loader as eventDetailLoader, action as deleteAction, action } 
 from '../pages/EventDetail';
 import EventLayout from '../layout/EventLayout';
 import NewEvent from '../pages/NewEvent';
@@ -16,6 +16,9 @@ import { action as manipulateAction }
   from '../components/EventForm';
 import WelcomePage from '../pages/WelcomePage';
 import SignUpPage from '../pages/SignUpPage';
+import { loginAction } from '../components/auth/LoginForm';
+import { userDataLoader } from './auth';
+import { logoutAction } from '../pages/Logout';
 
 
 // 라우터 설정
@@ -57,12 +60,17 @@ const homeRouter = [
 
   {
     index: true,
-    element: <WelcomePage />
+    element: <WelcomePage />,
+    action: loginAction
   }, // 웰컴 페이지 (로그인화면 or 로그인완료화면)
   {
     path: 'sign-up',
     element: <SignUpPage />
-  } // 회원가입 페이지
+  }, // 회원가입 페이지
+  {
+    path: 'logout',
+    action: logoutAction
+  }
 ];
 
 export const router = createBrowserRouter([
@@ -70,6 +78,8 @@ export const router = createBrowserRouter([
     path: '/',
     element: <RootLayout />,
     errorElement: <ErrorPage />,
+    loader: userDataLoader,
+    id: 'user-data',
     children: [
       { 
         path: '/', 
